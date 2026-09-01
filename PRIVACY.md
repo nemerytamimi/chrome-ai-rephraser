@@ -17,6 +17,12 @@ text into the toolbar popup, that text is sent directly from your browser to the
 AI provider you configured, and the reply is written back into the field. The text is used for that
 single request only. It is not stored by the extension, not logged, and not sent anywhere else.
 
+Because you can invoke a rewrite in any text field, that text may itself be a personal
+communication — an email you are drafting, a chat message, a comment. The extension does not read
+your mailbox, your message history or any field you have not acted on; it only handles the specific
+text you submit for a rewrite, at the moment you submit it, and it sends that text only to the
+provider you configured.
+
 **Your provider settings and API key.**
 The provider you select, the model name, any local server URL, your default rewrite mode, and the
 API key you enter in Settings are saved with the Chrome extension storage API
