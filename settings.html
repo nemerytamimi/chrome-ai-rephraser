@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Rephraser — Settings</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">✦</div>
+        <span>AI Rephraser</span>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item active" data-tab="general">
+          <span class="nav-icon">⚙️</span> General
+        </li>
+        <li class="nav-item" data-tab="openai">
+          <span class="nav-icon">🟢</span> OpenAI
+        </li>
+        <li class="nav-item" data-tab="gemini">
+          <span class="nav-icon">🔵</span> Gemini
+        </li>
+        <li class="nav-item" data-tab="claude">
+          <span class="nav-icon">🟠</span> Claude
+        </li>
+        <li class="nav-item" data-tab="openrouter">
+          <span class="nav-icon">🌐</span> OpenRouter
+        </li>
+        <li class="nav-item" data-tab="ollama">
+          <span class="nav-icon">🦙</span> Ollama (Local)
+        </li>
+        <li class="nav-item" data-tab="lmstudio">
+          <span class="nav-icon">🖥️</span> LM Studio
+        </li>
+        <li class="nav-item" data-tab="mcp">
+          <span class="nav-icon">🔌</span> MCP Integration
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- ── General ── -->
+      <section class="tab-panel active" id="tab-general">
+        <h2>General Settings</h2>
+        <p class="subtitle">Configure the active AI provider and global behavior.</p>
+
+        <div class="card">
+          <label class="field-label">Active AI Provider</label>
+          <p class="field-hint">This provider will be used for all rephrase operations.</p>
+          <div class="provider-grid" id="provider-grid">
+            <button class="provider-card" data-provider="openai">
+              <span class="provider-logo">🟢</span>
+              <span>OpenAI</span>
+            </button>
+            <button class="provider-card" data-provider="gemini">
+              <span class="provider-logo">🔵</span>
+              <span>Gemini</span>
+            </button>
+            <button class="provider-card" data-provider="claude">
+              <span class="provider-logo">🟠</span>
+              <span>Claude</span>
+            </button>
+            <button class="provider-card" data-provider="openrouter">
+              <span class="provider-logo">🌐</span>
+              <span>OpenRouter</span>
+            </button>
+            <button class="provider-card" data-provider="ollama">
+              <span class="provider-logo">🦙</span>
+              <span>Ollama</span>
+            </button>
+            <button class="provider-card" data-provider="lmstudio">
+              <span class="provider-logo">🖥️</span>
+              <span>LM Studio</span>
+            </button>
+            <button class="provider-card" data-provider="mcp">
+              <span class="provider-logo">🔌</span>
+              <span>MCP</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <label class="field-label">Default Rephrase Mode</label>
+          <select class="input-field" id="defaultMode">
+            <option value="rephrase">Rephrase</option>
+            <option value="formal">Make Formal</option>
+            <option value="casual">Make Casual</option>
+            <option value="concise">Make Concise</option>
+            <option value="expand">Expand</option>
+            <option value="fix">Fix Grammar &amp; Spelling</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" id="saveGeneral">Save General Settings</button>
+      </section>
+
+      <!-- ── OpenAI ── -->
+      <section class="tab-panel" id="tab-openai">
+        <h2>OpenAI</h2>
+        <p class="subtitle">Connect your OpenAI account to use GPT models.</p>
+        <div class="card">
+          <label class="field-label">API Key</label>
+          <div class="secret-input-wrap">
+            <input class="input-field" type="password" id="openaiApiKey" placeholder="sk-..." autocomplete="off" />
+            <button class="toggle-secret" data-target="openaiApiKey">👁</button>
+          </div>
+          <label class="field-label mt">Model</label>
+          <select class="input-field" id="openaiModel">
+            <option value="gpt-4o-mini">gpt-4o-mini (fast &amp; cheap)</option>
+            <option value="gpt-4o">gpt-4o</option>
+            <option value="gpt-4-turbo">gpt-4-turbo</option>
+            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+          </select>
+        </div>
+        <button class="btn-primary" data-save="openai">Save &amp; Test</button>
+        <div class="test-result" id="test-openai"></div>
+      </section>
+
+      <!-- ── Gemini ── -->
+      <section class="tab-panel" id="tab-gemini">
+        <h2>Google Gemini</h2>
+        <p class="subtitle">Connect your Google AI Studio API key.</p>
+        <div class="card">
+          <label class="field-label">API Key</label>
+          <div class="secret-input-wrap">
+            <input class="input-field" type="password" id="geminiApiKey" placeholder="AIza..." autocomplete="off" />
+            <button class="toggle-secret" data-target="geminiApiKey">👁</button>
+          </div>
+          <label class="field-label mt">Model</label>
+          <select class="input-field" id="geminiModel">
+            <option value="gemini-1.5-flash">gemini-1.5-flash (fast)</option>
+            <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+            <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+            <option value="gemini-2.5-pro">gemini-2.5-pro</option>
+          </select>
+        </div>
+        <button class="btn-primary" data-save="gemini">Save &amp; Test</button>
+        <div class="test-result" id="test-gemini"></div>
+      </section>
+
+      <!-- ── Claude ── -->
+      <section class="tab-panel" id="tab-claude">
+        <h2>Anthropic Claude</h2>
+        <p class="subtitle">Connect your Anthropic API key.</p>
+        <div class="card">
+          <label class="field-label">API Key</label>
+          <div class="secret-input-wrap">
+            <input class="input-field" type="password" id="claudeApiKey" placeholder="sk-ant-..." autocomplete="off" />
+            <button class="toggle-secret" data-target="claudeApiKey">👁</button>
+          </div>
+          <label class="field-label mt">Model</label>
+          <select class="input-field" id="claudeModel">
+            <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (fast)</option>
+            <option value="claude-sonnet-4-6">Claude Sonnet 4.6</option>
+            <option value="claude-opus-4-8">Claude Opus 4.8</option>
+          </select>
+        </div>
+        <button class="btn-primary" data-save="claude">Save &amp; Test</button>
+        <div class="test-result" id="test-claude"></div>
+      </section>
+
+      <!-- ── OpenRouter ── -->
+      <section class="tab-panel" id="tab-openrouter">
+        <h2>OpenRouter</h2>
+        <p class="subtitle">Access hundreds of models via a single API key.</p>
+        <div class="card">
+          <label class="field-label">API Key</label>
+          <div class="secret-input-wrap">
+            <input class="input-field" type="password" id="openrouterApiKey" placeholder="sk-or-..." autocomplete="off" />
+            <button class="toggle-secret" data-target="openrouterApiKey">👁</button>
+          </div>
+          <label class="field-label mt">Model ID</label>
+          <input class="input-field" type="text" id="openrouterModel" placeholder="meta-llama/llama-3.1-8b-instruct:free" />
+          <p class="field-hint">Enter any OpenRouter model ID. Browse models at openrouter.ai/models</p>
+        </div>
+        <button class="btn-primary" data-save="openrouter">Save &amp; Test</button>
+        <div class="test-result" id="test-openrouter"></div>
+      </section>
+
+      <!-- ── Ollama ── -->
+      <section class="tab-panel" id="tab-ollama">
+        <h2>Ollama (Local)</h2>
+        <p class="subtitle">Run models locally with Ollama — no API key required.</p>
+
+        <div class="card card--warn">
+          <h3>⚠️ Required: Allow Chrome extension origin</h3>
+          <p class="field-hint">Chrome extensions have a non-localhost origin (<code>chrome-extension://…</code>), which Ollama blocks by default (returns <strong>403</strong>). You must start Ollama with the <code>OLLAMA_ORIGINS</code> environment variable set.</p>
+
+          <label class="field-label mt">macOS / Linux — one-time launch</label>
+          <pre class="code-block">OLLAMA_ORIGINS=* ollama serve</pre>
+
+          <label class="field-label mt">macOS — set permanently via launchd</label>
+          <pre class="code-block">launchctl setenv OLLAMA_ORIGINS "*"
+# then restart Ollama from the menu bar</pre>
+
+          <label class="field-label mt">Windows — set permanently</label>
+          <pre class="code-block"># In PowerShell (as admin):
+[System.Environment]::SetEnvironmentVariable("OLLAMA_ORIGINS","*","User")
+# then restart Ollama</pre>
+        </div>
+
+        <div class="card">
+          <label class="field-label">Ollama Base URL</label>
+          <input class="input-field" type="text" id="ollamaUrl" placeholder="http://localhost:11434" />
+          <label class="field-label mt">Model</label>
+          <input class="input-field" type="text" id="ollamaModel" placeholder="llama3.2" />
+          <p class="field-hint">Run <code>ollama pull llama3.2</code> to download a model. Other options: <code>mistral</code>, <code>gemma3</code>, <code>phi4</code>, <code>qwen2.5</code>.</p>
+        </div>
+        <button class="btn-primary" data-save="ollama">Save &amp; Test</button>
+        <div class="test-result" id="test-ollama"></div>
+      </section>
+
+      <!-- ── LM Studio ── -->
+      <section class="tab-panel" id="tab-lmstudio">
+        <h2>LM Studio</h2>
+        <p class="subtitle">Run any GGUF model locally via LM Studio's built-in server.</p>
+
+        <div class="card card--warn">
+          <h3>⚠️ Required: Enable CORS in LM Studio</h3>
+          <p class="field-hint">Chrome extensions send a non-localhost <code>Origin</code> header, which LM Studio blocks by default. Enable cross-origin requests before using this provider:</p>
+          <ol class="setup-steps">
+            <li>Open LM Studio and start a model</li>
+            <li>Go to the <strong>Local Server</strong> tab (↔ icon in the left sidebar)</li>
+            <li>Enable <strong>"Allow requests from any origin (CORS)"</strong></li>
+            <li>Click <strong>Start Server</strong></li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <label class="field-label">Server URL</label>
+          <input class="input-field" type="text" id="lmstudioUrl" placeholder="http://localhost:1234" />
+          <p class="field-hint">Default is <code>http://localhost:1234</code>. Change only if you've set a custom port in LM Studio.</p>
+
+          <label class="field-label mt">Model identifier</label>
+          <input class="input-field" type="text" id="lmstudioModel" placeholder="local-model" />
+          <p class="field-hint">LM Studio accepts any string here — it always uses the currently loaded model. You can leave this as <code>local-model</code>.</p>
+        </div>
+
+        <button class="btn-primary" data-save="lmstudio">Save &amp; Test</button>
+        <div class="test-result" id="test-lmstudio"></div>
+      </section>
+
+      <!-- ── MCP ── -->
+      <section class="tab-panel" id="tab-mcp">
+        <h2>MCP Integration</h2>
+        <p class="subtitle">Connect to any Model Context Protocol compatible server.</p>
+        <div class="card">
+          <label class="field-label">MCP Server Endpoint</label>
+          <input class="input-field" type="text" id="mcpEndpoint" placeholder="http://localhost:3000/mcp" />
+
+          <label class="field-label mt">API Key (optional)</label>
+          <div class="secret-input-wrap">
+            <input class="input-field" type="password" id="mcpApiKey" placeholder="Leave empty if not required" autocomplete="off" />
+            <button class="toggle-secret" data-target="mcpApiKey">👁</button>
+          </div>
+
+          <label class="field-label mt">Tool Name</label>
+          <input class="input-field" type="text" id="mcpTool" placeholder="rephrase" />
+          <p class="field-hint">The MCP tool name to call. The extension sends the prompt as <code>arguments.text</code>.</p>
+        </div>
+
+        <div class="card">
+          <h3>MCP Protocol Info</h3>
+          <p class="field-hint">This extension communicates with MCP servers over HTTP using JSON-RPC 2.0. Your server must expose a <code>POST</code> endpoint that accepts:</p>
+          <pre class="code-block">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "&lt;tool-name&gt;",
+    "arguments": { "text": "&lt;prompt&gt;" }
+  }
+}</pre>
+          <p class="field-hint">And return a standard MCP response with <code>result.content</code>.</p>
+        </div>
+
+        <button class="btn-primary" data-save="mcp">Save &amp; Test</button>
+        <div class="test-result" id="test-mcp"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="settings.js"></script>
+</body>
+</html>

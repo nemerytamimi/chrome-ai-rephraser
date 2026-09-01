@@ -1,0 +1,128 @@
+/* ── Trigger Button ─────────────────────────────────────────────────────────── */
+#ai-rephraser-trigger {
+  position: absolute;
+  z-index: 2147483646;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: #6366f1;
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.45);
+  border: none;
+  transition: background 0.15s, transform 0.1s;
+  user-select: none;
+}
+#ai-rephraser-trigger:hover {
+  background: #4f46e5;
+  transform: scale(1.08);
+}
+#ai-rephraser-trigger svg {
+  pointer-events: none;
+}
+
+/* ── Dropdown ───────────────────────────────────────────────────────────────── */
+#ai-rephraser-dropdown {
+  position: absolute;
+  z-index: 2147483647;
+  background: #1e1e2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 6px;
+  display: none;
+  min-width: 160px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+.ai-rephraser-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+.ai-rephraser-mode-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  color: #a5b4fc;
+}
+.ai-rephraser-mode-icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+}
+
+/* ── Loading Overlay ────────────────────────────────────────────────────────── */
+#ai-rephraser-loading {
+  position: absolute;
+  z-index: 2147483645;
+  background: rgba(30, 30, 46, 0.82);
+  backdrop-filter: blur(3px);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #a5b4fc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.ai-rephraser-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(165, 180, 252, 0.3);
+  border-top-color: #a5b4fc;
+  border-radius: 50%;
+  animation: ai-rephraser-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes ai-rephraser-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Toast ──────────────────────────────────────────────────────────────────── */
+#ai-rephraser-toast {
+  position: fixed;
+  z-index: 2147483647;
+  bottom: 24px;
+  right: 24px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: ai-rephraser-fadein 0.2s ease;
+  max-width: 320px;
+  word-break: break-word;
+}
+.ai-rephraser-toast--success {
+  background: #166534;
+  color: #bbf7d0;
+  border: 1px solid #16a34a;
+}
+.ai-rephraser-toast--error {
+  background: #7f1d1d;
+  color: #fecaca;
+  border: 1px solid #dc2626;
+}
+
+@keyframes ai-rephraser-fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
