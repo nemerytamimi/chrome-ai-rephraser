@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "AI Text Rephraser",
-  "version": "1.0.1",
-  "description": "Rephrase text in any input field using AI (OpenAI, Gemini, Claude, and more)",
+  "version": "1.0.2",
+  "description": "Rewrite text in any input field: rephrase, change tone, shorten, expand or fix grammar, using the AI provider you choose.",
   "permissions": [
     "contextMenus",
     "storage",
