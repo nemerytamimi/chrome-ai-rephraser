@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AI Text Rephraser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rephrase text in any input field using AI (OpenAI, Gemini, Claude, and more)",
   "permissions": [
     "contextMenus",
@@ -10,19 +10,18 @@
     "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.anthropic.com/*",
+    "https://openrouter.ai/*"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["content.css"],
-      "run_at": "document_idle"
-    }
-  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -1,5 +1,26 @@
 let selectedMode = "rephrase";
 
+// ── Activate the ✦ button on the current tab ─────────────────────────────────
+// activeTab is granted for this tab because the user just opened the popup.
+
+(async () => {
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab?.id) return;
+    if (tab.url && !/^https?:\/\//.test(tab.url)) return; // chrome://, about:, view-source:
+    // insertCSS stacks a fresh copy on every call, so drop any previous one first.
+    try {
+      await chrome.scripting.removeCSS({ target: { tabId: tab.id }, files: ["content.css"] });
+    } catch (err) {
+      // Nothing inserted yet — expected on first activation.
+    }
+    await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["content.css"] });
+    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] });
+  } catch (err) {
+    // Restricted page — the ✦ button just won't be available here.
+  }
+})();
+
 // ── Mode buttons ──────────────────────────────────────────────────────────────
 
 document.querySelectorAll(".mode-btn").forEach((btn) => {

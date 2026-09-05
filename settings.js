@@ -10,6 +10,45 @@ const PROVIDER_FIELDS = {
 
 const GENERAL_FIELDS = ["activeProvider", "defaultMode"];
 
+// Providers with a user-supplied URL need a runtime-granted host permission,
+// since only the four fixed cloud APIs are declared as install-time permissions.
+const URL_FIELD_BY_PROVIDER = {
+  ollama: "ollamaUrl",
+  lmstudio: "lmstudioUrl",
+  mcp: "mcpEndpoint",
+};
+const DEFAULT_URL_BY_PROVIDER = {
+  ollama: "http://localhost:11434",
+  lmstudio: "http://localhost:1234",
+};
+
+// Must be the first await in a click handler: permissions.request() needs the
+// user gesture. It resolves true without prompting if already granted, so no
+// permissions.contains() check first. Match patterns carry no port, hence hostname.
+// new URL() alone is not enough of a check: "localhost:11434" parses as scheme
+// "localhost:" with an empty hostname, and permissions.request() throws — rather
+// than resolving false — on a pattern that is malformed or outside
+// optional_host_permissions.
+async function ensureHostPermission(url) {
+  const MALFORMED = "Enter a full URL, including http:// or https://";
+  let origin;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return { ok: false, error: MALFORMED };
+    if (!parsed.hostname) return { ok: false, error: MALFORMED };
+    origin = `${parsed.protocol}//${parsed.hostname}/*`;
+  } catch {
+    return { ok: false, error: MALFORMED };
+  }
+
+  try {
+    const granted = await chrome.permissions.request({ origins: [origin] });
+    return granted ? { ok: true } : { ok: false, error: `Permission to reach ${origin} was denied.` };
+  } catch (err) {
+    return { ok: false, error: `Could not request access to ${origin}: ${err.message}` };
+  }
+}
+
 // ── Tab navigation ────────────────────────────────────────────────────────────
 
 document.querySelectorAll(".nav-item").forEach((item) => {
@@ -82,6 +121,19 @@ document.querySelectorAll("[data-save]").forEach((btn) => {
       const el = document.getElementById(key);
       if (el) values[key] = el.value.trim();
     });
+
+    const urlField = URL_FIELD_BY_PROVIDER[provider];
+    if (urlField) {
+      const url = values[urlField] || DEFAULT_URL_BY_PROVIDER[provider];
+      const permission = await ensureHostPermission(url);
+      if (!permission.ok) {
+        const resultEl = document.getElementById(`test-${provider}`);
+        resultEl.className = "test-result error";
+        resultEl.textContent = `✗ ${permission.error}`;
+        resultEl.style.display = "block";
+        return;
+      }
+    }
 
     await chrome.storage.sync.set(values);
     showToast("Settings saved!", "success");

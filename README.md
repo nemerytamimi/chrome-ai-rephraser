@@ -81,8 +81,9 @@ icons/            Extension icons (16/32/48/128)
 
 - `contextMenus` — adds the right-click *AI Rephraser* menu.
 - `storage` — saves your provider choice and keys.
-- `activeTab` / `scripting` — replaces text in the field you're editing.
-- `<all_urls>` — the extension is meant to work in text fields on any site, and must reach whichever provider API you configure.
+- `activeTab` / `scripting` — injects the ✦ button into the current tab when you open the popup or use the right-click menu, and replaces text in the field you're editing. The extension does not run on every page automatically — it activates on a tab only when you invoke it there, and stays active on that tab until you navigate away.
+- Host access to `api.openai.com`, `generativelanguage.googleapis.com`, `api.anthropic.com`, and `openrouter.ai` — the four fixed cloud providers.
+- For Ollama, LM Studio, or a custom MCP endpoint, the extension asks for permission to reach that specific URL the first time you save it in Settings, since those addresses are yours to configure.
 
 ## Contributing
 
