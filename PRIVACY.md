@@ -64,10 +64,12 @@ LM Studio) or your own MCP endpoint.
 
 - `contextMenus` — adds the "AI Rephraser" right-click menu.
 - `storage` — saves your provider settings and API key, as described above.
-- `activeTab`, `scripting` — read the text of the field you invoked the extension on, and write the
-  rewritten text back into it.
-- Host access to all sites — so the rewrite button can work in text fields on any website you use,
-  and so the extension can reach whichever provider endpoint you configure (including a local one).
+- `activeTab`, `scripting` — inject the ✦ button into a tab only when you open the popup or use the
+  right-click menu on it, and read/write the text of the field you invoked the extension on. The
+  extension does not run on pages you haven't invoked it on.
+- Host access to the four fixed cloud providers (OpenAI, Gemini, Anthropic, OpenRouter). For Ollama,
+  LM Studio, or a custom MCP endpoint, the extension requests permission for that specific URL the
+  first time you save it in Settings.
 
 ## Removing your data
 

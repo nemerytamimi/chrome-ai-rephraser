@@ -29,9 +29,29 @@ function createContextMenus() {
 chrome.runtime.onInstalled.addListener(createContextMenus);
 chrome.runtime.onStartup.addListener(createContextMenus);
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+// insertCSS stacks a fresh copy on every call, so drop any previous one first.
+// content.js guards itself against double-injection with __aiRephraserLoaded.
+async function ensureContentScript(tabId) {
+  try {
+    try {
+      await chrome.scripting.removeCSS({ target: { tabId }, files: ["content.css"] });
+    } catch (err) {
+      // Nothing inserted yet — expected on first activation.
+    }
+    await chrome.scripting.insertCSS({ target: { tabId }, files: ["content.css"] });
+    await chrome.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+    return true;
+  } catch (err) {
+    return false; // restricted page (chrome://, Web Store, etc.)
+  }
+}
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const mode = info.menuItemId.replace("rephrase-", "");
   if (!REPHRASE_MODES.find((m) => m.id === mode)) return;
+
+  const ready = await ensureContentScript(tab.id);
+  if (!ready) return;
 
   chrome.tabs.sendMessage(tab.id, {
     type: "CONTEXT_MENU_REPHRASE",
