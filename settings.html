@@ -111,12 +111,23 @@
             <button class="toggle-secret" data-target="openaiApiKey">👁</button>
           </div>
           <label class="field-label mt">Model</label>
-          <select class="input-field" id="openaiModel">
-            <option value="gpt-4o-mini">gpt-4o-mini (fast &amp; cheap)</option>
-            <option value="gpt-4o">gpt-4o</option>
-            <option value="gpt-4-turbo">gpt-4-turbo</option>
-            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-          </select>
+          <input class="input-field" type="text" id="openaiModel" list="openaiModels" placeholder="gpt-4o-mini" autocomplete="off" />
+          <datalist id="openaiModels">
+            <option value="gpt-4o-mini">fast &amp; cheap</option>
+            <option value="gpt-4o"></option>
+            <option value="gpt-4.1"></option>
+            <option value="gpt-4.1-mini"></option>
+            <option value="gpt-4-turbo"></option>
+            <option value="gpt-3.5-turbo"></option>
+            <option value="gpt-5"></option>
+            <option value="gpt-5-mini"></option>
+            <option value="o4-mini"></option>
+          </datalist>
+          <p class="field-hint">Pick a suggestion or type any model name your key can reach — including fine-tuned models such as <code>ft:gpt-4o-mini:acme::abc123</code>. Defaults to <code>gpt-4o-mini</code> when empty.</p>
+
+          <label class="field-label mt">Temperature (optional)</label>
+          <input class="input-field" type="number" id="openaiTemperature" min="0" max="2" step="0.1" placeholder="Leave empty for the model default" />
+          <p class="field-hint">Lower is more literal, higher is more creative (0–2). Leave this empty for reasoning models such as <code>gpt-5</code> and the <code>o</code> series — they accept only their default temperature and reject any other value.</p>
         </div>
         <button class="btn-primary" data-save="openai">Save &amp; Test</button>
         <div class="test-result" id="test-openai"></div>

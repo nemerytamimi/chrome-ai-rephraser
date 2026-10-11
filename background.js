@@ -105,23 +105,59 @@ async function handleRephraseRequest({ text, mode, provider, settings }) {
   }
 }
 
+// Returns a number in [0, 2], or null when the setting is blank/invalid — in which
+// case temperature is left out of the request and the model's own default applies.
+function parseTemperature(value) {
+  if (value === undefined || value === null || String(value).trim() === "") return null;
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  return Math.min(2, Math.max(0, n));
+}
+
+// Reasoning models (gpt-5, o-series…) accept only the default temperature and reject
+// anything else with an "unsupported_value" error on the temperature param.
+function isUnsupportedTemperature(err) {
+  const e = err?.error;
+  return e?.param === "temperature" &&
+    (e?.code === "unsupported_value" || /does not support/i.test(e?.message || ""));
+}
+
 async function callOpenAI(prompt, settings) {
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${settings.openaiApiKey}`,
-    },
-    body: JSON.stringify({
-      model: settings.openaiModel || "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-    }),
-  });
+  const body = {
+    model: (settings.openaiModel || "").trim() || "gpt-4o-mini",
+    messages: [{ role: "user", content: prompt }],
+  };
+
+  const temperature = parseTemperature(settings.openaiTemperature);
+  if (temperature !== null) body.temperature = temperature;
+
+  const post = () =>
+    fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${settings.openaiApiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+  let res = await post();
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `OpenAI error ${res.status}`);
+    // Retry once without temperature so a model that only allows its default still works.
+    if (body.temperature !== undefined && isUnsupportedTemperature(err)) {
+      delete body.temperature;
+      res = await post();
+      if (!res.ok) {
+        const retryErr = await res.json().catch(() => ({}));
+        throw new Error(retryErr.error?.message || `OpenAI error ${res.status}`);
+      }
+    } else {
+      throw new Error(err.error?.message || `OpenAI error ${res.status}`);
+    }
   }
+
   const data = await res.json();
   return data.choices[0].message.content.trim();
 }

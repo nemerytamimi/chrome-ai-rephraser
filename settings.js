@@ -1,5 +1,5 @@
 const PROVIDER_FIELDS = {
-  openai:      ["openaiApiKey", "openaiModel"],
+  openai:      ["openaiApiKey", "openaiModel", "openaiTemperature"],
   gemini:      ["geminiApiKey", "geminiModel"],
   claude:      ["claudeApiKey", "claudeModel"],
   openrouter:  ["openrouterApiKey", "openrouterModel"],

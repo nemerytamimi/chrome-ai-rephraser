@@ -17,13 +17,32 @@ Your API keys stay in your browser. There is no backend, no telemetry, and no th
 
 | Provider | Needs a key | Notes |
 | --- | --- | --- |
-| OpenAI | Yes | `gpt-4o-mini`, `gpt-4o`, `gpt-4-turbo`, `gpt-3.5-turbo` |
+| OpenAI | Yes | Any model name, plus an optional temperature — see below |
 | Google Gemini | Yes | `gemini-1.5-flash`, `gemini-1.5-pro`, `gemini-2.0-flash`, `gemini-2.5-pro` |
 | Anthropic Claude | Yes | Haiku 4.5, Sonnet 4.6, Opus 4.8 |
 | OpenRouter | Yes | Any model slug, including free tiers |
 | Ollama | No | Local, default `http://localhost:11434` |
 | LM Studio | No | Local, default `http://localhost:1234` |
 | MCP server | Optional | JSON-RPC `tools/call` against your own endpoint |
+
+### OpenAI: custom models and temperature
+
+The **Model** field takes any model name your key can reach — the suggestions
+(`gpt-4o-mini`, `gpt-4o`, `gpt-4.1`, `gpt-5`, `o4-mini`, …) are only a starting point, so a
+fine-tuned model such as `ft:gpt-4o-mini:acme::abc123` works too. Leave it empty for `gpt-4o-mini`.
+
+**Temperature** is optional. Leave it empty and the extension omits the parameter entirely, letting
+the model use its own default; set a value between 0 and 2 to make rewrites more literal or more
+creative. Reasoning models — `gpt-5` and the `o` series — accept *only* their default temperature
+and reject anything else:
+
+```
+Unsupported value: 'temperature' does not support 0.7 with this model.
+Only the default (1) value is supported.
+```
+
+If that happens, the extension drops the temperature and retries the request automatically, so the
+rewrite still goes through. Clearing the field avoids the wasted round trip.
 
 ## Installation
 
